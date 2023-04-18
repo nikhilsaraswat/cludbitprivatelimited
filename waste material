@@ -1,0 +1,200 @@
+<div>
+            {/* <a
+              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              By{' '}
+              <Image
+                src="/vercel.svg"
+                alt="Vercel Logo"
+                className={styles.vercelLogo}
+                width={100}
+                height={24}
+                priority
+              />
+            </a> */}
+          </div>
+          {/* <div className={styles.center}>
+            <Image
+              className={styles.logo}
+              src="/next.svg"
+              alt="Next.js Logo"
+              width={180}
+              height={37}
+              priority
+            />
+            <div className={styles.thirteen}>
+              <Image
+                src="/thirteen.svg"
+                alt="13"
+                width={40}
+                height={31}
+                priority
+              />
+            </div>
+          </div> */}
+  {/* 
+          <div className={styles.grid}>
+            <a
+              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+              className={styles.card}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <h2 className={inter.className}>
+                Docs <span>-&gt;</span>
+              </h2>
+              <p className={inter.className}>
+                Find in-depth information about Next.js features and&nbsp;API.
+              </p>
+            </a>
+  
+            <a
+              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+              className={styles.card}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <h2 className={inter.className}>
+                Learn <span>-&gt;</span>
+              </h2>
+              <p className={inter.className}>
+                Learn about Next.js in an interactive course with&nbsp;quizzes!
+              </p>
+            </a>
+  
+            <a
+              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+              className={styles.card}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <h2 className={inter.className}>
+                Templates <span>-&gt;</span>
+              </h2>
+              <p className={inter.className}>
+                Discover and deploy boilerplate example Next.js&nbsp;projects.
+              </p>
+            </a>
+  
+            <a
+              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+              className={styles.card}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <h2 className={inter.className}>
+                Deploy <span>-&gt;</span>
+              </h2>
+              <p className={inter.className}>
+                Instantly deploy your Next.js site to a shareable URL
+                with&nbsp;Vercel.
+              </p>
+            </a>
+          </div> */}
+
+
+
+
+          create a card
+          {/* <div className='flex justify-center mt-4'>
+            <div className="w-2/12 border-sky-700 border-4 bg-green-200 m-2 h-80 rounded-2xl flex items-center flex-col">
+            <Image src={web} className='h-4/6 rounded-xl'/>
+            <h1 className='mt-1'>Web Development</h1>
+            <p className='p-2'>Web Development using React, Angular, Vue, PHP, Wordpress.</p>
+            </div>       
+            
+            </div> */}
+
+
+
+
+                const [chat, setChat] = useState('')
+    const [names, setNames] = useState('');
+    const [email, setEmail] = useState('');
+    const [description, setDescription] = useState('');
+    const [sentCopy, setSentCopy] = useState('False');
+    const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const handleContacts = async (e) => {
+        e.preventDefault();
+
+        // reset error and message
+        setError('');
+        setMessage('');
+
+        // fields check
+        if (!names || !email || !description) return setError('All fields are required');
+
+        // post structure
+        let contact = {
+            names,
+            email,
+            description,
+            sentCopy,
+            createdAt: new Date().toISOString(),
+        };
+        // save the post
+        let response = await fetch('/api/contacts', {
+            method: 'POST',
+            body: JSON.stringify(contact),
+        });
+
+        // get the data
+        let data = await response.json();
+
+        if (data.success) {
+            // reset the fields
+            setNames('');
+            setEmail('');
+            setDescription('');
+            setSentCopy('');
+            // set the message
+            return setMessage(data.message);
+        } else {
+            // set the error
+            return setError(data.message);
+        }
+    };
+    return(
+    <>
+    
+    <div className='text-right bottom-0 sticky mr-8 pb-6'>
+    <div className={chat=="hidden" ? '' : "hidden"}>
+    <FontAwesomeIcon icon={faCommentDots} className={"w-fit cursor-pointer"} style={{color: "#e21281",fontSize: 70,}} /></div>
+    </div>
+    <div className="text-right bottom-0 sticky mr-8 pb-6">
+    <div className={chat}>
+        <div className="flex justify-end">
+            <div className="border-2 h-96 w-3/12 flex justify-center items-center">
+            <form onSubmit={handleContacts}>
+        {error ? (
+        <div >
+          <h3>{error}</h3>
+        </div>
+        ) : null}
+        {message ? (
+        <div>
+          <h3>{message}</h3>
+        </div>
+        ) : null}
+          <div className="form-group mb-6">
+            <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" name="names" onChange={(e) => setNames(e.target.value)} value={names} placeholder="Name"/>
+          </div>
+          <div className="form-group mb-6">
+            <input type="email" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"  name="email" onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Email address"/>
+          </div>
+          <div className="form-group mb-6">
+            <textarea className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none " name="description" onChange={(e) => setDescription(e.target.value)} value={description} rows="3" placeholder="Message"></textarea>
+          </div>
+          <div className="form-group form-check text-center mb-6">
+            <input type="checkbox"className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain mr-2 cursor-pointer" name="sentCopy" onChange={(e) => setSentCopy(e.target.checked == true ? 'True' : 'False')} value='False'/>
+            <label className="form-check-label inline-block text-gray-800" for="exampleCheck87">Send me a copy of this message</label>
+          </div>
+          <button type="submit" className="w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Send</button>
+        </form>
+            </div>
+        </div>
+    </div>
+    </div>
